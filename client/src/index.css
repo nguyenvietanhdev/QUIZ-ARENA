@@ -249,3 +249,112 @@ button:disabled {
     opacity: 1;
   }
 }
+
+/* ---- game ---- */
+.q-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.answered {
+  font-size: 0.8rem;
+  color: #818cf8;
+  font-weight: 600;
+}
+.q-text {
+  font-size: 1.25rem;
+  line-height: 1.4;
+  margin: 0 0 20px;
+}
+.choices {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding: 14px;
+  background: #0b1220;
+  border: 2px solid #334155;
+  color: #e2e8f0;
+  font-size: 1rem;
+  transition: transform 0.1s, background 0.15s;
+}
+.choice:not(:disabled):hover {
+  transform: translateX(3px);
+}
+.choice .shape {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.choice.picked {
+  background: #1e293b;
+  box-shadow: 0 0 0 2px #6366f1 inset;
+}
+.choice.correct {
+  background: #052e1a;
+  border-color: #22c55e !important;
+}
+.choice.wrong {
+  background: #2e0505;
+  border-color: #ef4444 !important;
+  opacity: 0.8;
+}
+.choice .votes {
+  margin-left: auto;
+  font-weight: 700;
+  color: #94a3b8;
+}
+.good {
+  color: #4ade80;
+  font-weight: 700;
+  text-align: center;
+}
+.bad {
+  color: #f87171;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ---- leaderboard ---- */
+.leaderboard {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.leaderboard.compact li {
+  padding: 8px 12px;
+}
+.leaderboard li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #0b1220;
+  border-radius: 10px;
+  padding: 12px;
+  animation: pop 0.2s ease;
+}
+.leaderboard li.me {
+  outline: 1px solid #6366f1;
+}
+.rank {
+  font-weight: 800;
+  min-width: 28px;
+  text-align: center;
+}
+.lb-name {
+  flex: 1;
+}
+.lb-score {
+  font-weight: 800;
+  color: #818cf8;
+}

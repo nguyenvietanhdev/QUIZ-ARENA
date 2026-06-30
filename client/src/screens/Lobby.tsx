@@ -6,9 +6,10 @@ interface Props {
   role: Role;
   youId: string | null;
   onLeave: () => void;
+  onStart: () => void;
 }
 
-export function Lobby({ state, role, youId, onLeave }: Props) {
+export function Lobby({ state, role, youId, onLeave, onStart }: Props) {
   const { pin, host, players } = state;
 
   return (
@@ -44,8 +45,18 @@ export function Lobby({ state, role, youId, onLeave }: Props) {
         </ul>
       )}
 
-      {role === "host" && players.length > 0 && (
-        <p className="hint">▶ Tuần 2 sẽ thêm nút “Bắt đầu” ở đây.</p>
+      {role === "host" && (
+        <button
+          className="primary"
+          style={{ marginTop: 18 }}
+          onClick={onStart}
+          disabled={players.length === 0}
+        >
+          {players.length === 0 ? "Chờ người chơi…" : "Bắt đầu 🚀"}
+        </button>
+      )}
+      {role === "player" && (
+        <p className="hint">⌛ Chờ host bắt đầu…</p>
       )}
 
       <button className="ghost" onClick={onLeave}>

@@ -8,7 +8,16 @@ import type {
   InterServerEvents,
   SocketData,
 } from "./events.js";
-import { createRoom, joinRoom, leaveRoom, RoomError } from "./rooms.js";
+import {
+  createRoom,
+  joinRoom,
+  leaveRoom,
+  startGame,
+  recordAnswer,
+  revealQuestion,
+  nextQuestion,
+  RoomError,
+} from "./rooms.js";
 
 const PORT = Number(process.env.PORT) || 3001;
 const CLIENT_ORIGINS = (process.env.CLIENT_ORIGIN ?? "http://localhost:5173")
@@ -110,6 +119,64 @@ io.on("connection", (socket) => {
   socket.on("room:leave", (ack) => {
     detach(socket);
     ack?.({ ok: true });
+  });
+
+  // --- game (Week 2) -------------------------------------------------------
+  // Helper to turn a RoomError into a clean ack + log unexpected errors.
+  const guard = (ack: (res: { ok: false; error: string }) => void, fn: () => void) => {
+    try {
+      fn();
+    } catch (err) {
+      if (err instanceof RoomError) return ack({ ok: false, error: err.message });
+      console.error("[game] unexpected error:", err);
+      ack({ ok: false, error: "INTERNAL" });
+    }
+  };
+
+  socket.on("game:start", (ack) => {
+    const pin = socket.data.pin;
+    if (!pin) return ack({ ok: false, error: "NOT_IN_ROOM" });
+    guard(ack, () => {
+      const state = startGame(pin, socket.id);
+      ack({ ok: true });
+      io.to(pin).emit("game:state", state);
+    });
+  });
+
+  socket.on("game:answer", ({ questionIndex, choiceIndex }, ack) => {
+    const pin = socket.data.pin;
+    if (!pin) return ack({ ok: false, error: "NOT_IN_ROOM" });
+    guard(ack, () => {
+      const { accepted, state } = recordAnswer(
+        pin,
+        socket.id,
+        questionIndex,
+        choiceIndex
+      );
+      ack({ ok: true, accepted });
+      // Broadcast so the host's "answered" counter updates live.
+      if (state) io.to(pin).emit("game:state", state);
+    });
+  });
+
+  socket.on("game:reveal", (ack) => {
+    const pin = socket.data.pin;
+    if (!pin) return ack({ ok: false, error: "NOT_IN_ROOM" });
+    guard(ack, () => {
+      const state = revealQuestion(pin, socket.id);
+      ack({ ok: true });
+      io.to(pin).emit("game:state", state);
+    });
+  });
+
+  socket.on("game:next", (ack) => {
+    const pin = socket.data.pin;
+    if (!pin) return ack({ ok: false, error: "NOT_IN_ROOM" });
+    guard(ack, () => {
+      const state = nextQuestion(pin, socket.id);
+      ack({ ok: true });
+      io.to(pin).emit("game:state", state);
+    });
   });
 
   socket.on("disconnect", (reason) => {
