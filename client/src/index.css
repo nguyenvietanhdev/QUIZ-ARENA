@@ -1,0 +1,251 @@
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(1200px 800px at 50% -10%, #1e293b, #0f172a);
+  color: #e2e8f0;
+}
+
+.card {
+  width: min(440px, 92vw);
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.app-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.status.on {
+  background: #052e1a;
+  color: #4ade80;
+}
+.status.off {
+  background: #2e0505;
+  color: #f87171;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---- inputs / buttons ---- */
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #0b1220;
+  color: #e2e8f0;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.pin-input {
+  letter-spacing: 6px;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.primary {
+  width: 100%;
+  padding: 12px 16px;
+  background: #6366f1;
+  color: white;
+  font-size: 1rem;
+}
+.ghost {
+  width: 100%;
+  margin-top: 18px;
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid #334155;
+  color: #94a3b8;
+}
+
+/* ---- tabs ---- */
+.tabs {
+  display: flex;
+  gap: 6px;
+  background: #0b1220;
+  padding: 4px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+.tab {
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+  color: #94a3b8;
+}
+.tab.active {
+  background: #1f2937;
+  color: #e2e8f0;
+}
+
+/* ---- messages ---- */
+.error {
+  background: #2e0505;
+  color: #fca5a5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+.notice {
+  background: #422006;
+  color: #fcd34d;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+/* ---- lobby ---- */
+.lobby-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.muted {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+.pin-display {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 8px;
+  color: #818cf8;
+}
+.role-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #1e293b;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+.host-line {
+  margin: 8px 0 20px;
+}
+
+.players-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1f2937;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+.count {
+  background: #6366f1;
+  color: white;
+  border-radius: 999px;
+  padding: 1px 9px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.empty {
+  color: #64748b;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px 0;
+}
+.players {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.players li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0b1220;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  animation: pop 0.18s ease;
+}
+.players li.me {
+  outline: 1px solid #6366f1;
+}
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #6366f1;
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.you-tag {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: #818cf8;
+}
+.hint {
+  margin-top: 16px;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
